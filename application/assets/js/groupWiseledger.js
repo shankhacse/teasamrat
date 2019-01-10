@@ -1,0 +1,70 @@
+ 
+$(document).ready(function() {
+/* $( ".legal-menu"+$('#reportmenu').val() ).addClass( "collapse in");
+  $(".trialbalance").addClass( " active " );
+  $(".scmenu3").removeClass("collapse");
+    */
+ 
+   
+    var basepath = $("#basepath").val();
+    var session_strt_date = $('#startyear').val();
+    var session_end_date = $('#endyear').val();
+    var mindate = '01-04-' + session_strt_date;
+    var maxDate = '31-03-' + session_end_date;
+   
+
+    $('.datepicker').datepicker({
+        dateFormat: 'dd-mm-yy',
+        minDate: mindate,
+        maxDate: maxDate
+    });
+    
+    
+   
+    //Print sale tax register
+     $("#showgrpwisepdf").click(function(){
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        var group = $("#group").val();
+        
+        if(fromdate==""){
+             $("#fromdate").addClass("glowing-border");
+                $("#todate").removeClass("glowing-border");
+                 $("#group").removeClass("glowing-border");
+             return false;
+        }
+         if(todate==""){
+             $("#todate").addClass("glowing-border");
+              $("#fromdate").removeClass("glowing-border");
+              $("#group").removeClass("glowing-border");
+             return false;
+        }
+        if(group=="0"){
+             $("#group").addClass("glowing-border");
+              $("#fromdate").removeClass("glowing-border");
+               $("#todate").removeClass("glowing-border");
+             return false;
+        }
+        else{
+             $("#groupwiseledgerregister").submit();
+        }
+       
+        
+    });
+    
+    
+});
+    
+    
+     
+    
+
+   
+ 
+
+
+
+
+  
+  
+

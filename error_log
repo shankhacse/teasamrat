@@ -1,0 +1,35 @@
+[15-Mar-2015 09:06:02 UTC] PHP Fatal error:  Call to a member function delete() on a non-object in /home/softhought/public_html/application/controllers/customermaster.php on line 197
+[15-Mar-2015 09:07:32 UTC] PHP Fatal error:  Call to a member function delete() on a non-object in /home/softhought/public_html/application/controllers/customermaster.php on line 197
+[23-Mar-2015 08:41:23 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/softhought/public_html/application/models/privatesellmastermodel.php on line 251
+[23-Mar-2015 10:12:54 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/softhought/public_html/application/models/purchaseinvoicemastermodel.php on line 347
+[23-Mar-2015 10:12:55 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/softhought/public_html/application/models/purchaseinvoicemastermodel.php on line 347
+[24-Mar-2015 07:15:05 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/softhought/public_html/application/models/salertobuyermodel.php on line 274
+[24-Mar-2015 07:16:02 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/softhought/public_html/application/models/salertobuyermodel.php on line 274
+[24-Mar-2015 07:18:56 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/softhought/public_html/application/models/salertobuyermodel.php on line 274
+[24-Mar-2015 07:19:17 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/softhought/public_html/application/models/salertobuyermodel.php on line 274
+[24-Mar-2015 07:19:55 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/softhought/public_html/application/models/salertobuyermodel.php on line 274
+[24-Mar-2015 07:22:27 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/softhought/public_html/application/models/salertobuyermodel.php on line 362
+[24-Mar-2015 07:22:27 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/softhought/public_html/application/models/salertobuyermodel.php on line 362
+[03-Mar-2017 12:24:43 UTC] PHP Fatal error:  Allowed memory size of 67108864 bytes exhausted (tried to allocate 20239840 bytes) in /home/softhought/public_html/system/core/Output.php on line 366
+[03-Mar-2017 12:30:15 UTC] PHP Fatal error:  Allowed memory size of 67108864 bytes exhausted (tried to allocate 20239840 bytes) in /home/softhought/public_html/system/core/Output.php on line 366
+[03-Mar-2017 12:30:19 UTC] PHP Fatal error:  Allowed memory size of 67108864 bytes exhausted (tried to allocate 20239840 bytes) in /home/softhought/public_html/system/core/Output.php on line 366
+[03-Mar-2017 12:30:50 UTC] PHP Fatal error:  Allowed memory size of 67108864 bytes exhausted (tried to allocate 20239840 bytes) in /home/softhought/public_html/system/core/Output.php on line 366
+[09-Mar-2018 06:22:52 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 87964769 bytes) in /home/softhought/public_html/system/core/Output.php on line 366
+[07-Apr-2018 06:07:02 UTC] PHP Fatal error:  Allowed memory size of 67108864 bytes exhausted (tried to allocate 3145728 bytes) in /home/softhought/public_html/application/third_party/mpdf/Tag.php on line 4671
+[05-May-2018 09:07:36 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/softhought/public_html/application/models/debitoroutstandingmodel.php on line 58
+[05-May-2018 09:09:20 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/softhought/public_html/application/models/debitoroutstandingmodel.php on line 58
+[05-May-2018 09:10:07 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/softhought/public_html/application/models/debitoroutstandingmodel.php on line 58
+[05-May-2018 09:10:20 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/softhought/public_html/application/models/debitoroutstandingmodel.php on line 58
+[05-May-2018 09:11:14 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/softhought/public_html/application/models/debitoroutstandingmodel.php on line 58
+[05-May-2018 09:11:28 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/softhought/public_html/application/models/debitoroutstandingmodel.php on line 58
+[05-May-2018 09:15:08 UTC] PHP Fatal error:  Uncaught exception 'MpdfException' with message 'Some data has already been output to browser, can't send PDF file' in /home/softhought/public_html/application/third_party/mpdf/mpdf.php:9399
+Stack trace:
+#0 /home/softhought/public_html/application/controllers/debitoroutstanding.php(150): mPDF->Output('debitoroutstand...', 'I')
+#1 [internal function]: debitoroutstanding->pdfDebitorsOutstanding()
+#2 /home/softhought/public_html/system/core/CodeIgniter.php(359): call_user_func_array(Array, Array)
+#3 /home/softhought/public_html/index.php(202): require_once('/home/softhough...')
+#4 {main}
+  thrown in /home/softhought/public_html/application/third_party/mpdf/mpdf.php on line 9399
+[08-Sep-2018 07:43:42 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 369720 bytes) in /home/softhought/public_html/application/third_party/mpdf/Tag.php on line 16537
+[08-Sep-2018 09:04:58 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 369720 bytes) in /home/softhought/public_html/application/third_party/mpdf/Tag.php on line 16537
+[13-Nov-2018 09:49:03 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 198560 bytes) in /home/softhought/public_html/application/third_party/mpdf/mpdf.php on line 13160

@@ -1,0 +1,316 @@
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+class vendoradvance extends CI_Controller {
+
+    public function __construct() {
+        parent::__construct();
+        $this->load->model('vendormastermodel', '', TRUE);
+        $this->load->model('generalvouchermodel', '', TRUE);
+        $this->load->model('vendoradvancemodel','',TRUE);
+        $this->load->model('checkdatamodel','',TRUE);
+    }
+
+    public function index() {
+        $session = sessiondata_method();
+        if ($this->session->userdata('logged_in')) {
+            $result = $this->vendoradvancemodel->getVendorAdvanceList($session['company'],$session['yearid']);
+            $page = 'vendoradvance/list_view';
+            $header = '';
+            $headercontent ="";
+            createbody_method($result, $page, $header, $session, $headercontent);
+        } else {
+            redirect('login', 'refresh');
+        }
+       
+      //  $this->addTaxInvoice();
+    }
+    public function addEditAdvance(){
+       
+        $session = sessiondata_method();
+        if ($this->session->userdata('logged_in')) {
+            
+             if ($this->uri->segment(4) === FALSE) {
+                
+                $vendorAdvanceId = 0;
+            } else {
+                $vendorAdvanceId = $this->uri->segment(4);
+            }
+        $headercontent['vendors'] = $this->vendormastermodel->getVendorList();   
+        $headercontent['CashOrBank'] = $this->generalvouchermodel->getAccountByGroupMaster($session['company']);
+        
+        if($vendorAdvanceId==0){
+            $headercontent['mode'] = "Add";
+            $page = 'vendoradvance/addEditAdvance';
+            $result="";
+            
+        }  else {
+            $headercontent['mode'] = "Edit";
+            $result['vendoradvancement']=  $this->vendoradvancemodel->getAdvanceById($vendorAdvanceId);
+            $page = 'vendoradvance/addEditAdvance';
+           
+        }
+        
+            $header = '';
+            createbody_method($result, $page, $header, $session, $headercontent);
+            
+        } else {
+            redirect('login', 'refresh');
+        }
+    }
+    
+    public function SaveVendorAdvance(){
+        $modeOfOpeartion = $this->input->post('mode');
+        $advanceId = $this->input->post('vendoradvanceId');
+        $formData = $this->input->post('formDatas');
+        parse_str($formData,$searcharray);
+        
+        if($modeOfOpeartion=="Add" && $advanceId==""){
+            $ret=$this->insertVendorAdvance($searcharray);
+            if($ret){
+                echo(1);
+                exit;
+            }  else {
+                echo(0);
+                exit;
+            }
+        }else{
+            $ret=  $this->updateVendorAdvance($searcharray);
+            if($ret){
+                echo(1);
+                exit;
+            }  else {
+                echo(0);
+                exit;
+            }
+        }
+        
+        
+    }
+    
+    public function updateVendorAdvance($searcharray){
+        $vendorMasterAdvance = array();
+        $session = sessiondata_method();
+         if ($this->session->userdata('logged_in')) {
+            
+             $vendorMasterAdvance["advanceId"]=$searcharray["vendoradvanceId"];
+             $vendorMasterAdvance["advanceDate"]=$searcharray["dateofadvance"];
+             $vendorMasterAdvance["voucherId"] = $searcharray["voucherid"];
+             $vendorMasterAdvance["advanceAmount"] = $searcharray["paymentamount"];
+             $vendorMasterAdvance["cashorbank"]=$searcharray["cashorbank"];
+             $vendorMasterAdvance["cheqno"] = $searcharray["cheqno"];
+             $vendorMasterAdvance["cheqdt"] = $searcharray["cheqdt"];
+             $vendorMasterAdvance["vendoradvance"]=$searcharray["vendoradvance"];
+             $vendorMasterAdvance["narration"] = $searcharray["narration"];
+             $vendorMasterAdvance["payment_type"] = $searcharray["payment_type"];
+             $insrt=  $this->vendoradvancemodel->UpdateVendorAdvance($vendorMasterAdvance);
+          
+             
+             
+             if($insrt){
+                 return TRUE;
+             }else{
+                 return FALSE;
+             }
+             
+         }else{
+              redirect('login', 'refresh');
+         }
+    }
+    
+    
+    public function insertVendorAdvance($searcharray){
+        $vendorMasterAdvance = array();
+        $session = sessiondata_method();
+         if ($this->session->userdata('logged_in')) {
+            
+             $vendorMasterAdvance["advanceDate"]=$searcharray["dateofadvance"];
+             $vendorMasterAdvance["voucherId"] = NULL;
+             $vendorMasterAdvance["advanceAmount"] = $searcharray["paymentamount"];
+             $vendorMasterAdvance["cashorbank"]=$searcharray["cashorbank"];
+             $vendorMasterAdvance["cheqno"] = $searcharray["cheqno"];
+             $vendorMasterAdvance["cheqdt"] = $searcharray["cheqdt"];
+             $vendorMasterAdvance["vendoradvance"]=$searcharray["vendoradvance"];
+             $vendorMasterAdvance["narration"] = $searcharray["narration"];
+             $vendorMasterAdvance["voucherNumber"] =NULL; //$this->getvouchernumber();
+             $vendorMasterAdvance["voucherSerial"] =0; //$this->generate_serial_no();
+             $vendorMasterAdvance["lastSrNo"]= 0; //$this->getSerialNumber();
+             $vendorMasterAdvance["companyId"] = $session['company'];
+             $vendorMasterAdvance["yearId"] = $session["yearid"];
+             $vendorMasterAdvance["userId"]=$session["user_id"];
+             $vendorMasterAdvance["payment_type"]=$searcharray["payment_type"];
+             
+           
+             $insrt=  $this->vendoradvancemodel->insertVendorAdvance($vendorMasterAdvance);
+          
+             
+             
+             if($insrt){
+                 return TRUE;
+             }else{
+                 return FALSE;
+             }
+             
+         }else{
+              redirect('login', 'refresh');
+         }
+        
+    }
+
+
+    public function getvouchernumber(){
+        $session = sessiondata_method();
+          $cid=$session['company'];
+          $yid=$session['yearid'];
+		$voucher_srl_no=$this->generalvouchermodel->getSerailvoucherNo($cid,$yid);
+		$srl=  intval($voucher_srl_no)+1;
+                $padding='00000';
+                if($srl>=10 && $srl<100 ){
+                    $padding='00000';
+                }elseif ($srl>=100 && $srl<1000) {
+                    $padding='000';
+                }elseif ($srl>=1000 && $srl<10000) {
+                    $padding='00';
+                }elseif ($srl>=10000 && $srl<10000) {
+                    $padding='0';
+                }elseif ($srl>=100000 && $srl<1000000) {
+                    $padding='';
+                }
+                $voucherNo=$padding.$srl."/".substr($session['startyear'],2,2)."-".substr($session['endyear'],2,2);
+       
+                //echo "serial No is".$srl;
+        return $voucherNo;
+      
+        }
+    public function getSerialNumber(){
+        
+        $session = sessiondata_method();
+          $cid=$session['company'];
+          $yid=$session['yearid'];
+		$voucher_srl_no=$this->generalvouchermodel->getSerailvoucherNo($cid,$yid);
+		$srl=$voucher_srl_no+1;
+        return $srl;        
+    }    
+        
+        private function generate_serial_no()
+	{
+        $session = sessiondata_method();
+            $cid=$session['company'];
+            $yid=$session['yearid'];
+                  $voucher_srl_no=$this->generalvouchermodel->getLastSerialNo($cid,$yid);
+                  $srl=$voucher_srl_no['serialNo']+1;
+                  //echo "serial No is".$srl;
+          return $srl;
+	}
+
+
+
+	public function delVendorAdvance()
+	{
+		
+		if ($this->session->userdata('logged_in')) 
+		{
+             $session = sessiondata_method();
+			  $json_response = array();
+			  $vendorAdvanceID = $this->input->post('venadvid');
+			  $voucherno = $this->input->post('voucher');
+			  
+			  $table = 'vendoradvanceadjustmentmaster';
+			  $where = array(
+			  		"vendoradvanceadjustmentmaster.advanceMasterId" => $vendorAdvanceID
+			  );
+
+			  $checkdelete = $this->checkdatamodel->checkIsDataExist($table,$where);
+			  if(sizeof($checkdelete)>0)
+			  {
+
+			  	$refno ="";
+                foreach($checkdelete as $vendadjustmntData)
+                {
+                    $refno.= $vendadjustmntData->AdjustmentRefNo.",";
+                }
+                 $refno = rtrim($refno,',');
+
+			  	// $refno = $checkdelete->AdjustmentRefNo;
+
+			  		$json_response = array(
+			  			"ERROR"=>1,
+			  			"MSG" => $voucherno ." is used in Vendor Adjustment module with Refno ".$refno.". Please delete Vendor adjustment first."
+
+			  		);
+			  }
+			  else
+			  {
+
+                
+
+                $user_activity_data =  array(
+                                    "activity_date" => date("Y-m-d H:i:s"),
+                                    "activity_module" => "Vendor Advance",
+                                    "action" => "Delete",
+                                    "narration" => $voucherno." deleted ID is ".$vendorAdvanceID,
+                                    "from_method" => "vendoradvance/delVendorAdvance",
+                                    "user_id" => $session['user_id']
+                                 );
+
+			  	$delete =  $this->vendoradvancemodel->DeleteVendorAdvance($vendorAdvanceID,$user_activity_data);
+
+			  	if($delete)
+			  	{
+			  		$json_response = array(
+			  			"ERROR"=>0,
+			  			"MSG" => $voucherno ." successfully deleted"
+
+			  		);
+			  	}
+			  	else
+			  	{
+			  		$json_response = array(
+			  			"ERROR"=>1,
+			  			"MSG" => "There is some problem.Please try again later"
+
+			  		);
+			  	}
+
+			  }
+
+			header('Content-Type: application/json');
+			echo json_encode( $json_response );
+			exit;
+			
+		}
+		else
+		{
+            redirect('login', 'refresh');
+        }
+	}
+
+
+//check checkExistAdjusmentRecord
+
+      public function checkExistAdjusmentRecord(){
+       // $data="0";
+         $session = sessiondata_method();
+        if ($this->session->userdata('logged_in')) {
+
+        $vendoradvanceId = htmlspecialchars(trim($this->input->post('vendoradvanceId')));
+        
+         $result = $this->vendoradvancemodel->checkAdjustmentExistanceData($vendoradvanceId);
+         if($result==TRUE){
+             echo "1";
+         }
+         else{
+             echo "0";
+         }
+
+
+        } 
+        
+   }
+
+
+}
